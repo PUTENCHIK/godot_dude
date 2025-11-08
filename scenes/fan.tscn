@@ -1,0 +1,202 @@
+[gd_scene load_steps=14 format=3 uid="uid://dk7nhm24x4of8"]
+
+[ext_resource type="Script" uid="uid://cgm2jw61od2uf" path="res://scripts/fan.gd" id="1_ib1wi"]
+[ext_resource type="Texture2D" uid="uid://po0ge7omkngj" path="res://assets/fan_on.png" id="2_h3fxe"]
+[ext_resource type="Texture2D" uid="uid://0pywx6tdtyyf" path="res://assets/fan.png" id="3_h3fxe"]
+[ext_resource type="Script" uid="uid://ccwjptejflw3v" path="res://scripts/flow_fan.gd" id="4_05mpp"]
+[ext_resource type="Texture2D" uid="uid://c3728ych0cvjp" path="res://assets/texture.png" id="5_01qld"]
+[ext_resource type="AudioStream" uid="uid://cfk470kuq8jkp" path="res://audio/vent.ogg" id="6_4wrgw"]
+
+[sub_resource type="Animation" id="Animation_4wrgw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FanSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FanSprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FanSprite:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_h3fxe")]
+}
+
+[sub_resource type="Animation" id="Animation_05mpp"]
+resource_name = "off"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FanSprite:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FanSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FanSprite:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_h3fxe")]
+}
+
+[sub_resource type="Animation" id="Animation_01qld"]
+resource_name = "on"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FanSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("FanSprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FanSprite:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_h3fxe")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b17ye"]
+_data = {
+&"RESET": SubResource("Animation_4wrgw"),
+&"off": SubResource("Animation_05mpp"),
+&"on": SubResource("Animation_01qld")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_05mpp"]
+size = Vector2(46, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h3fxe"]
+size = Vector2(60, 169)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_01qld"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(25, 1, 1)
+gravity = Vector3(0, -98, 0)
+scale_min = 0.19999999
+scale_max = 0.39999998
+color = Color(0.9607843, 0.9607843, 0.9607843, 1)
+turbulence_enabled = true
+turbulence_noise_strength = 2.45
+turbulence_noise_scale = 7.42
+turbulence_influence_min = 0.108
+turbulence_influence_max = 0.108
+
+[node name="Fan" type="StaticBody2D"]
+script = ExtResource("1_ib1wi")
+
+[node name="FanSprite" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("3_h3fxe")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_b17ye")
+}
+
+[node name="FanCollision" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_05mpp")
+
+[node name="FlowArea" type="Area2D" parent="."]
+script = ExtResource("4_05mpp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FlowArea"]
+position = Vector2(0, -92.5)
+shape = SubResource("RectangleShape2D_h3fxe")
+disabled = true
+debug_color = Color(1.6845763e-06, 0.63373566, 0.440673, 0.41960785)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.27450982)
+position = Vector2(-1, -9)
+emitting = false
+amount = 11
+amount_ratio = 0.8
+texture = ExtResource("5_01qld")
+lifetime = 7.0
+speed_scale = 2.5
+randomness = 0.4
+visibility_rect = Rect2(-31, -170, 62, 170)
+trail_lifetime = 1.03
+trail_sections = 13
+trail_section_subdivisions = 11
+process_material = SubResource("ParticleProcessMaterial_01qld")
+
+[node name="FanAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_4wrgw")
+volume_db = 20.0
+max_distance = 800.0
+bus = &"SFX"
+parameters/looping = true
