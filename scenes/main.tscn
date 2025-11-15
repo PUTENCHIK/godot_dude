@@ -1,8 +1,7 @@
-[gd_scene load_steps=29 format=3 uid="uid://udiba07oudwd"]
+[gd_scene load_steps=31 format=3 uid="uid://udiba07oudwd"]
 
 [ext_resource type="Texture2D" uid="uid://dgub4kgnsdtdv" path="res://assets/background.png" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://bvx0d5yrmfwrn" path="res://scripts/main.gd" id="1_sugp2"]
-[ext_resource type="PackedScene" uid="uid://k5b77uekevqj" path="res://scenes/slime.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://bl8tpj22odgfm" path="res://scenes/physics_dude.tscn" id="4_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://cjgy8q7k0ya8c" path="res://assets/box.png" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://c2r7sux7hvstb" path="res://scenes/crate.tscn" id="6_choun"]
@@ -13,6 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://dk7nhm24x4of8" path="res://scenes/fan.tscn" id="10_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://caq15ghpxeh73" path="res://scenes/button.tscn" id="11_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://b7qtpjkw5w5qs" path="res://scenes/trap.tscn" id="12_trceg"]
+[ext_resource type="PackedScene" uid="uid://yr81wn0m3hjj" path="res://scenes/hud.tscn" id="13_trceg"]
+[ext_resource type="Texture2D" uid="uid://bjklp6huiuapp" path="res://assets/off_button.png" id="14_a8y0u"]
+[ext_resource type="PackedScene" uid="uid://dig5nmpr6foy5" path="res://scenes/menu.tscn" id="15_jkv2x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jyhfs"]
 size = Vector2(576, 15)
@@ -145,10 +147,7 @@ texture = ExtResource("1_o5qli")
 
 [node name="Button" parent="." instance=ExtResource("11_eb6dy")]
 position = Vector2(894, 510)
-node_path = NodePath("../Fan")
-
-[node name="Slime" parent="." instance=ExtResource("2_0wfyh")]
-position = Vector2(245, 546)
+node_path = NodePath("../Static/Fan")
 
 [node name="Static" type="Node2D" parent="."]
 
@@ -237,6 +236,18 @@ shape = SubResource("RectangleShape2D_a8y0u")
 position = Vector2(834, 611)
 shape = SubResource("RectangleShape2D_jkv2x")
 
+[node name="Fan" parent="Static" instance=ExtResource("10_ya4ey")]
+position = Vector2(891, 446)
+
+[node name="Trap" parent="Static" instance=ExtResource("12_trceg")]
+position = Vector2(244, 428)
+
+[node name="Trap2" parent="Static" instance=ExtResource("12_trceg")]
+position = Vector2(60, 300)
+
+[node name="Trap3" parent="Static" instance=ExtResource("12_trceg")]
+position = Vector2(147, 366)
+
 [node name="PhysicsDude" parent="." instance=ExtResource("4_jyhfs")]
 z_index = 1
 position = Vector2(125, 489)
@@ -253,17 +264,19 @@ position = Vector2(408, 507)
 [node name="Rock" parent="." instance=ExtResource("8_85g3d")]
 position = Vector2(890, 275)
 
-[node name="Fan" parent="." instance=ExtResource("10_ya4ey")]
-position = Vector2(891, 446)
-
-[node name="Trap" parent="." instance=ExtResource("12_trceg")]
-position = Vector2(236, 473)
-
 [node name="ShowFps" type="Label" parent="."]
-offset_left = 16.0
-offset_top = 8.0
-offset_right = 56.0
-offset_bottom = 31.0
+offset_left = 9.0
+offset_top = 52.0
+offset_right = 49.0
+offset_bottom = 75.0
 script = ExtResource("6_tefeu")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="Hud" parent="." instance=ExtResource("13_trceg")]
+health_texture = ExtResource("14_a8y0u")
+
+[node name="Menu" parent="." instance=ExtResource("15_jkv2x")]
+process_mode = 3
+visible = false
+z_index = 99

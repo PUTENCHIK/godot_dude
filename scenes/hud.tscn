@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://yr81wn0m3hjj"]
+
+[ext_resource type="Script" uid="uid://hgl7exs0k6v6" path="res://scripts/hud.gd" id="1_ahhtf"]
+
+[node name="Hud" type="Node"]
+script = ExtResource("1_ahhtf")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 262.0
+offset_bottom = 77.0
+theme_override_constants/separation = 2
