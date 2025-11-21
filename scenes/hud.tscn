@@ -6,7 +6,7 @@
 script = ExtResource("1_ahhtf")
 
 [node name="Panel" type="Panel" parent="."]
-offset_right = 40.0
+offset_right = 209.0
 offset_bottom = 40.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel"]

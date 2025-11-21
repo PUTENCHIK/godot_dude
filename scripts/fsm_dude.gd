@@ -111,6 +111,8 @@ func handle_collisions(delta: float):
 	for c in collision_count:
 		var collision = get_slide_collision(c)
 		var collider = collision.get_collider()
+		if collider == null:
+			return
 		var normal = collision.get_normal()
 		if "StaticBox" in collider.name:
 			if abs(normal.y) > 0.8:

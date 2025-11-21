@@ -50,6 +50,23 @@ theme = ExtResource("2_vjb58")
 theme_override_font_sizes/font_size = 22
 text = "Exit"
 
+[node name="LevelsContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LevelsLabel" type="Label" parent="CenterContainer/VBoxContainer/LevelsContainer"]
+layout_mode = 2
+theme = ExtResource("2_vjb58")
+theme_override_font_sizes/font_size = 22
+text = "Levels"
+horizontal_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="CenterContainer/VBoxContainer/LevelsContainer"]
+layout_mode = 2
+theme = ExtResource("2_vjb58")
+theme_override_font_sizes/font_size = 18
+
 [connection signal="value_changed" from="CenterContainer/VBoxContainer/HBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="item_selected" from="CenterContainer/VBoxContainer/LevelsContainer/OptionButton" to="." method="_on_level_changed"]

@@ -1,24 +1,52 @@
 extends Node2D
 
-@onready var staticbox_animation = get_node("Static/StaticBox/AnimationPlayer")
-@onready var dude = get_node("PhysicsDude")
-@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
-@onready var menu: Node = $Menu
+@onready var menu: Node2D = $UI/Menu
+@onready var player_scene = preload("res://scenes/physics_dude.tscn")
+@onready var world = $World
 
-#func _input(event: InputEvent) -> void:
-	#if event.is_action_pressed("menu"):
-		#if menu.visible:
-			#Globals.resume()
-			#menu.hide()
-		#else:
-			#Globals.pause()
-			#menu.show()
+var current_level: Node2D = null
+var levels: Dictionary = {
+	"Training": preload("res://scenes/training_level.tscn"),
+	"Infinite": preload("res://scenes/infinity_level.tscn")
+}
+var player = null
+var camera = null
 
 func _ready() -> void:
-	dude.hit.connect(_on_hit_static_box)
-	audio_player.stream = load("res://audio/background.ogg")
-	audio_player.volume_db = linear_to_db(0.5)
-	audio_player.play()
+	player = player_scene.instantiate()
+	camera = player.get_node("Camera2D")
+	world.add_child(player)
+	if len(levels.keys()) == 0:
+		print("[ERROR] No levels")
+	menu.update_levels(levels.keys())
+	load_level(levels.keys()[0])
+	menu.level_changed.connect(load_level)
 
-func _on_hit_static_box():
-	staticbox_animation.play("hit")
+func load_level(level_name: String):
+	if current_level:
+		current_level.queue_free()
+	current_level = levels[level_name].instantiate()
+	world.add_child(current_level)
+	player.global_position = current_level.get_node("Spawn").global_position
+	
+	match level_name:
+		"Training": camera.enabled = false
+		"Infinite":
+			camera.enabled = true
+			camera.limit_left = 0
+			camera.limit_top = 0
+			camera.limit_bottom = 648
+
+func save_settings():
+	var config = ConfigFile.new()
+	var slider: HSlider = menu.get_node("CenterContainer/VBoxContainer/HBoxContainer/HSlider")
+	config.set_value("audio", "volume", slider.value)
+	config.save("user://dude.cfg")
+
+func load_settings():
+	var config = ConfigFile.new()
+	var error = config.load("user://dude.cfg")
+	if error == OK:
+		var slider: HSlider = menu.get_node("CenterContainer/VBoxContainer/HBoxContainer/HSlider")
+		var volume = config.get_value("audio", "volume", Globals.DEFAULT_VOLUME)
+		slider.value = volume
