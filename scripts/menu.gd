@@ -27,7 +27,8 @@ func _on_h_slider_value_changed(value: float) -> void:
 	var bus_idx = AudioServer.get_bus_index("Master")
 	AudioServer.set_bus_volume_linear(bus_idx, value)
 
-func update_levels(levels: Array):
+func update_levels(levels: Array, current_index: int):
 	var options = $CenterContainer/VBoxContainer/LevelsContainer/OptionButton
 	for level in levels:
 		options.add_item(level)
+	options.selected = current_index

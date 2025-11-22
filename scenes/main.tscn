@@ -11,22 +11,22 @@ script = ExtResource("1_sugp2")
 
 [node name="World" type="Node2D" parent="."]
 
-[node name="UI" type="Node2D" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Hud" parent="UI" instance=ExtResource("13_trceg")]
 health_texture = ExtResource("14_a8y0u")
+
+[node name="ShowFps" type="Label" parent="UI"]
+offset_left = 9.0
+offset_top = 51.0
+offset_right = 49.0
+offset_bottom = 74.0
+script = ExtResource("6_tefeu")
 
 [node name="Menu" parent="UI" instance=ExtResource("15_jkv2x")]
 process_mode = 3
 visible = false
 z_index = 99
-
-[node name="ShowFps" type="Label" parent="."]
-offset_left = 9.0
-offset_top = 52.0
-offset_right = 49.0
-offset_bottom = 75.0
-script = ExtResource("6_tefeu")
 
 [connection signal="ready" from="." to="." method="load_settings"]
 [connection signal="tree_exiting" from="." to="." method="save_settings"]

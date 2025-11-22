@@ -18,8 +18,9 @@ func _ready() -> void:
 	world.add_child(player)
 	if len(levels.keys()) == 0:
 		print("[ERROR] No levels")
-	menu.update_levels(levels.keys())
-	load_level(levels.keys()[0])
+	var start_level = 1
+	menu.update_levels(levels.keys(), start_level)
+	load_level(levels.keys()[start_level])
 	menu.level_changed.connect(load_level)
 
 func load_level(level_name: String):
@@ -36,6 +37,8 @@ func load_level(level_name: String):
 			camera.limit_left = 0
 			camera.limit_top = 0
 			camera.limit_bottom = 648
+			current_level.camera = camera
+			current_level.player = player
 
 func save_settings():
 	var config = ConfigFile.new()

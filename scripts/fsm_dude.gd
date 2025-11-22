@@ -21,9 +21,12 @@ var burn_delay: float = 0.0
 var is_held: bool = false
 var crate: RigidBody2D = null
 var interactive = null
+var is_on_sticky: bool = false
 
 signal hit
 signal burned
+signal sticky_platform_step
+signal sticky_platform_leave
 
 func set_state(new_state: State):
 	current_state = new_state
@@ -31,6 +34,8 @@ func set_state(new_state: State):
 func _ready() -> void:
 	set_state(State.IDLE)
 	burned.connect(_on_burned)
+	sticky_platform_step.connect(_on_sticky_platform_step)
+	sticky_platform_leave.connect(_on_sticky_platform_leave)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pickup") and not is_held:
@@ -74,13 +79,18 @@ func handle_idle(delta: float):
 		set_state(State.RUN)
 	else:
 		#velocity.x *= 0
-		velocity.x = move_toward(velocity.x, 0, SPEED / 20)
+		velocity.x = braking_character()
 	
 	if Input.is_action_just_pressed("jump"):
 		jump_player.play()
 		velocity.y = JUMP_VELOCITY
 		double_jump = true
 		set_state(State.JUMP)
+
+# Function for character horizontal stopping
+func braking_character() -> float:
+	return move_toward(velocity.x, 0,
+		SPEED / 5 if not is_on_sticky else SPEED / 100)
 
 func handle_run(delta: float):
 	animation.play("run")
@@ -202,3 +212,9 @@ func _on_burned():
 	if current_state != State.BURNED:
 		animation.play("burn")
 	set_state(State.BURNED)
+
+func _on_sticky_platform_step():
+	is_on_sticky = true
+
+func _on_sticky_platform_leave():
+	is_on_sticky = false
